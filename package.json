@@ -1,0 +1,27 @@
+{
+  "name": "rx-dom-vite-seed",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "predev": "npm run clear:cache",
+    "prebuild": "npm run clear:cache",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "clear:cache": "npm run clear:cache:vite && npm run clear:cache:lirx-dom",
+    "clear:cache:vite": "node ./tools/clear-cache.js --vite",
+    "clear:cache:lirx-dom": "node ./tools/clear-cache.js --lirx-dom"
+  },
+  "sideEffects": false,
+  "devDependencies": {
+    "sass": "^1.54.9",
+    "typescript": "^4.8.3",
+    "@lirx/dom-aot-plugin": "1.0.0",
+    "vite": "^3.1.1"
+  },
+  "dependencies": {
+    "@lirx/core": "1.0.0",
+    "@lirx/dom": "1.0.0",
+    "tslib": "^2.4.0"
+  }
+}
