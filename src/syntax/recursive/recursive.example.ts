@@ -1,9 +1,8 @@
-import { BODY_ROOT, bootstrap } from '@lirx/dom';
+import { bootstrap } from '@lirx/dom';
 import { AppRecursiveExampleComponent, IAppRecursiveExampleComponentInputConfig } from './component/recursive-example.component';
 
 export function recursiveExample() {
-  const node = AppRecursiveExampleComponent.create();
-  // const node = bootstrap(AppRecursiveExampleComponent);
+  const node = bootstrap(AppRecursiveExampleComponent);
 
   const generateConfig = (
     name: string,
@@ -21,9 +20,4 @@ export function recursiveExample() {
   };
 
   node.inputs.set('config', generateConfig(`node-0`, 10, 3));
-
-  console.time('attach');
-  node.attach(BODY_ROOT);
-  console.timeEnd('attach');
-  // setTimeout(() => node.detach(), 2000);
 }

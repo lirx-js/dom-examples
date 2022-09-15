@@ -45,7 +45,14 @@ export const AppRxInjectSlotExampleAComponent = createComponent<IAppRxInjectSlot
   template,
   inputs: [],
   init: (): IData => {
-    const date$ = map$$(merge([interval(1000), single(void 0)]), () => new Date().toString());
+    const date$ = map$$(
+      merge([
+          interval(1000),
+          single(void 0),
+        ],
+      ),
+      () => new Date().toString(),
+    );
 
     return {
       date$,

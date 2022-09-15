@@ -75,7 +75,14 @@ export const AppRxIfExampleComponent = createComponent<IAppRxIfExampleComponentC
   init: (): IData => {
     const toggleTime: number = 1000;
 
-    const visible$ = map$$(merge([interval(1000), single(void 0)]), () => ((Date.now() % (toggleTime * 2)) < toggleTime));
+    const visible$ = map$$(
+      merge([
+          interval(1000),
+          single(void 0),
+        ],
+      ),
+      () => ((Date.now() % (toggleTime * 2)) < toggleTime),
+    );
 
     return {
       visible$,
