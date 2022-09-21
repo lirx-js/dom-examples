@@ -25,7 +25,7 @@ const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTempla
   ],
 });
 
-// const template: ICreateComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+// const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
 //   html: `
 //     <app-rx-inject-slot-example-b>
 //       <rx-slot name="main">

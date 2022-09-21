@@ -23,7 +23,7 @@ const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTempla
   `,
 });
 
-// const template: ICreateComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+// const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
 //   html: `
 //     <rx-if condition="$.visible$">
 //       <div *if-true>
@@ -36,7 +36,7 @@ const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTempla
 //   `,
 // });
 
-// const template: ICreateComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+// const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
 //   html: `
 //     <rx-if condition="$.visible$">
 //       <rx-if-true>
@@ -49,7 +49,7 @@ const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTempla
 //   `,
 // });
 
-// const template: ICreateComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+// const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
 //   html: `
 //     <rx-template name="trueTemplate">
 //       I'm visible

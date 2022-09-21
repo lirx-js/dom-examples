@@ -1,0 +1,22 @@
+
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #e1e1e1;
+  background-color: #fafafa;
+
+  & > .remove-button {
+    padding: 0 10px;
+    background-color: #ff6060;
+    border-radius: 4px;
+    border: 0;
+    text-transform: uppercase;
+    line-height: 30px;
+    color: #fff;
+    cursor: pointer;
+  }
+}
