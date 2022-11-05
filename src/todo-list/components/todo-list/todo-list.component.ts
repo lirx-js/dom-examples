@@ -1,4 +1,4 @@
-import { $$map, IObservable, IObserver, let$$, single } from '@lirx/core';
+import { $$map, IObservable, IObserver, let$$ } from '@lirx/core';
 import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent } from '@lirx/dom';
 import { TodoListItemComponent } from '../todo-list-item/todo-list-item.component';
 
@@ -11,19 +11,20 @@ import style from './todo-list.component.scss?inline';
  * COMPONENT: 'app-todo-list'
  **/
 
-interface ITodoListComponentItemData {
-  readonly message$: IObservable<string>;
-  readonly $remove: IObserver<any>;
+interface ITodoListItem {
+  readonly message: string;
 }
 
-type ITodoListComponentItemsList = readonly ITodoListComponentItemData[];
+type ITodoListItemsList = readonly ITodoListItem[];
 
 interface IData {
   readonly inputValue$: IObservable<string>;
   readonly $onInput: IObserver<Event>;
   readonly $onFormSubmit: IObserver<Event>;
 
-  readonly items$: IObservable<ITodoListComponentItemsList>;
+  readonly items$: IObservable<ITodoListItemsList>;
+
+  readonly removeItem: (item: ITodoListItem) => void;
 }
 
 interface ITodoListComponentConfig {
@@ -42,39 +43,23 @@ export const TodoListComponent = createComponent<ITodoListComponentConfig>({
   styles: [compileStyleAsComponentStyle(style)],
   init: (): IData => {
     const [$inputValue, inputValue$, getInputValue] = let$$<string>('');
-    const [$items, items$, getItems] = let$$<ITodoListComponentItemsList>([]);
-
-    const createItem = (
-      message: string,
-    ): ITodoListComponentItemData => {
-      const item: ITodoListComponentItemData = {
-        message$: single(message),
-        $remove: (): void => {
-          removeItem(item);
-        },
-      };
-      return item;
-    };
+    const [$items, items$, getItems] = let$$<ITodoListItemsList>([]);
 
     const addItem = (
-      item: ITodoListComponentItemData,
+      message: string,
     ): void => {
       $items([
         ...getItems(),
-        item,
+        {
+          message,
+        },
       ]);
     };
 
-    const createAndAddItem = (
-      message: string,
-    ): void => {
-      addItem(createItem(message));
-    };
-
     const removeItem = (
-      item: ITodoListComponentItemData,
+      item: ITodoListItem,
     ): void => {
-      const items: ITodoListComponentItemsList = getItems();
+      const items: ITodoListItemsList = getItems();
       const index: number = items.indexOf(item);
       if (index !== -1) {
         $items([
@@ -94,20 +79,21 @@ export const TodoListComponent = createComponent<ITodoListComponentConfig>({
       const inputValue: string = getInputValue().trim();
 
       if (inputValue !== '') {
-        createAndAddItem(inputValue);
+        addItem(inputValue);
       }
 
       $inputValue('');
     };
 
-    createAndAddItem('Check this awesome tutorial');
-    createAndAddItem('Write your own components');
+    addItem('Check this awesome tutorial');
+    addItem('Write your own components');
 
     return {
       inputValue$,
       $onInput,
       $onFormSubmit,
       items$,
+      removeItem,
     };
   },
 });

@@ -1,0 +1,38 @@
+<app-table
+  $[config]="$.tableConfig$"
+>
+  <rx-slot
+    name="header"
+    let-column
+  >
+    <rx-switch expression="column">
+      <rx-container *switch-case="'firstname'">
+        Firstname
+      </rx-container>
+      <rx-container *switch-case="'lastname'">
+        Lastname
+      </rx-container>
+      <rx-container *switch-case="'age'">
+        Age
+      </rx-container>
+    </rx-switch>
+  </rx-slot>
+
+  <rx-slot
+    name="body"
+    let-column
+    let-row
+  >
+    <rx-switch expression="column">
+      <rx-container *switch-case="'firstname'">
+        {{ row.firstname }}
+      </rx-container>
+      <rx-container *switch-case="'lastname'">
+        {{ row.lastname }}
+      </rx-container>
+      <rx-container *switch-case="'age'">
+        {{ row.age }}
+      </rx-container>
+    </rx-switch>
+  </rx-slot>
+</app-table>

@@ -1,0 +1,24 @@
+<table>
+  <thead *if="slots.has('header')">
+    <tr>
+      <th *for="let column of $.columns$">
+        <rx-inject-slot
+          name="header"
+          let-column="column"
+        ></rx-inject-slot>
+      </th>
+    </tr>
+  </thead>
+
+  <tbody *if="slots.has('body')">
+    <tr *for="let row of $.rows$">
+      <td *for="let column of $.columns$">
+        <rx-inject-slot
+          name="body"
+          let-column="column"
+          let-row="row"
+        ></rx-inject-slot>
+      </td>
+    </tr>
+  </tbody>
+</table>

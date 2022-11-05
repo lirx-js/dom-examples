@@ -3,6 +3,6 @@ import { TodoListWithStoreComponent } from './components/todo-list/todo-list-wit
 import { TodoListComponent } from './components/todo-list/todo-list.component';
 
 export function todoListExample() {
-  // bootstrap(TodoListComponent);
-  bootstrap(TodoListWithStoreComponent);
+  bootstrap(TodoListComponent);
+  // bootstrap(TodoListWithStoreComponent);
 }

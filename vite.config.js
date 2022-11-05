@@ -5,6 +5,7 @@ import { aotPlugin } from '@lirx/dom-aot-plugin';
  */
 const config = {
   build: {
+    modulePreload: false,
     target: 'esnext',
     minify: 'terser',
     polyfillModulePreload: false,
@@ -15,7 +16,7 @@ const config = {
         pure_getters: true,
         passes: 5,
         ecma: 2020,
-        unsafe: true,
+        // unsafe: true,
         unsafe_arrows: true,
         unsafe_comps: true,
         unsafe_Function: true,
@@ -24,6 +25,7 @@ const config = {
         unsafe_methods: true,
         unsafe_proto: true,
         unsafe_undefined: true,
+        unused: true,
       },
       mangle: {
         eval: true,

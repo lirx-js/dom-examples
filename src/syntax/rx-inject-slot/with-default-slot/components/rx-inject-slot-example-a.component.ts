@@ -25,25 +25,12 @@ const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTempla
   ],
 });
 
-// const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
-//   html: `
-//     <app-rx-inject-slot-example-b>
-//       <rx-slot name="main">
-//         {{ $.date$ }}
-//       </rx-slot>
-//     </app-rx-inject-slot-example-b>
-//   `,
-//   customElements: [
-//     AppRxInjectSlotExampleBComponent,
-//   ],
-// });
 
 /** COMPONENT **/
 
 export const AppRxInjectSlotExampleAComponent = createComponent<IAppRxInjectSlotExampleAComponentConfig>({
   name: 'app-rx-inject-slot-example-a',
   template,
-  inputs: [],
   init: (): IData => {
     const date$ = map$$(
       merge([

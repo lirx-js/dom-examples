@@ -1,11 +1,14 @@
 import { compileReactiveHTMLAsComponentTemplate, createComponent, IComponentTemplate } from '@lirx/dom';
+import { IObservable, single } from '@lirx/core';
 
-/** DATA **/
+/** CONFIG **/
 
 interface IData {
+  readonly data$: IObservable<string>;
 }
 
 interface IAppRxInjectSlotExampleBComponentConfig {
+  element: HTMLElement;
   data: IData;
 }
 
@@ -13,17 +16,13 @@ interface IAppRxInjectSlotExampleBComponentConfig {
 
 const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
   html: `
-    <div class="star-slot">
-      <rx-inject-slot name="*">
-        default * slot
+    <div class="main-slot">
+      <rx-inject-slot
+        name="main"
+        let-data="$.data$"
+      >
+        placeholder content
       </rx-inject-slot>
-    </div>
-
-    <div
-      class="main-slot"
-      *inject-slot="main"
-    >
-      default main slot
     </div>
   `,
 });
@@ -33,13 +32,11 @@ const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTempla
 export const AppRxInjectSlotExampleBComponent = createComponent<IAppRxInjectSlotExampleBComponentConfig>({
   name: 'app-rx-inject-slot-example-b',
   template,
-  inputs: [],
-  init: ({ slots }): IData => {
+  init: (): IData => {
+    const data$ = single('Data coming from child');
 
-    // slots can be manipulated here
-    // const parent = new VirtualContainerNode();
-    // slots.get('main')!(parent);
-
-    return {};
+    return {
+      data$,
+    };
   },
 });

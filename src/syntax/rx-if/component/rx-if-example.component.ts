@@ -44,8 +44,8 @@ const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTempla
 //       </rx-if-true>
 //       <rx-if-false>
 //         Invisible
-//       </rx-template>
-//     </rx-if-false>
+//       </rx-if-false>
+//     </rx-if>
 //   `,
 // });
 
