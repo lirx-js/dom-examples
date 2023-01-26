@@ -1,5 +1,5 @@
 {
-  "name": "rx-dom-vite-seed",
+  "name": "rx-dom-examples",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
@@ -14,16 +14,16 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@lirx/dom-aot-plugin": "1.0.0",
+    "@lirx/dom-aot-plugin": "1.1.0",
     "sass": "^1.55.0",
     "typescript": "^4.8.4",
     "terser": "^5.15.1",
     "vite": "^3.1.4"
   },
   "dependencies": {
-    "@lirx/core": "1.1.0-beta.1",
-    "@lirx/dom": "1.0.0-beta.1",
-    "@lirx/store": "1.0.0",
+    "@lirx/core": "^1.2.0",
+    "@lirx/dom": "^0.8.0",
+    "@lirx/store": "^1.0.0",
     "tslib": "^2.4.0"
   }
 }

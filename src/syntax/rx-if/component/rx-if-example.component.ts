@@ -13,28 +13,28 @@ interface IAppRxIfExampleComponentConfig {
 
 /** TEMPLATE **/
 
-const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
-  html: `
-    <div>A</div>
-    <div *if="$.visible$">
-      I'm visible
-    </div>
-    <div>B</div>
-  `,
-});
-
 // const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
 //   html: `
-//     <rx-if condition="$.visible$">
-//       <div *if-true>
-//         I'm visible
-//       </div>
-//       <div *if-false>
-//         Invisible
-//       </div>
-//     </rx-if>
+//     <div>A</div>
+//     <div *if="$.visible$">
+//       I'm visible
+//     </div>
+//     <div>B</div>
 //   `,
 // });
+
+const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+  html: `
+    <rx-if condition="$.visible$">
+      <div *if-true>
+        I'm visible
+      </div>
+      <div *if-false>
+        Invisible
+      </div>
+    </rx-if>
+  `,
+});
 
 // const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
 //   html: `

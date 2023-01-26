@@ -4,8 +4,8 @@ import { rxInjectSlotWithNamedSlotExample } from './with-named-slot/rx-inject-sl
 import { rxInjectSlotWithProxyExample } from './with-proxy/rx-inject-slot-with-proxy.example';
 
 export function rxInjectSlotExample() {
-  // rxInjectSlotWithDefaultSlotExample();
+  rxInjectSlotWithDefaultSlotExample();
   // rxInjectSlotWithNamedSlotExample();
   // rxInjectSlotWithLetPropertiesExample();
-  rxInjectSlotWithProxyExample();
+  // rxInjectSlotWithProxyExample();
 }

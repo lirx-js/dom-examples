@@ -8,26 +8,26 @@ interface IAppRxInjectSlotExampleBComponentConfig {
 
 /** TEMPLATE **/
 
-const template: IComponentTemplate<object> = compileReactiveHTMLAsComponentTemplate({
-  html: `
-    <div class="default-slot">
-      <rx-inject-slot name="*">
-        placeholder content
-      </rx-inject-slot>
-    </div>
-  `,
-});
-
 // const template: IComponentTemplate<object> = compileReactiveHTMLAsComponentTemplate({
 //   html: `
-//     <div
-//       class="default-slot"
-//       *inject-slot="*"
-//     >
-//       placeholder content
+//     <div class="default-slot">
+//       <rx-inject-slot name="*">
+//         placeholder content
+//       </rx-inject-slot>
 //     </div>
 //   `,
 // });
+
+const template: IComponentTemplate<object> = compileReactiveHTMLAsComponentTemplate({
+  html: `
+    <div
+      class="default-slot"
+      *inject-slot="*"
+    >
+      placeholder content
+    </div>
+  `,
+});
 
 /** COMPONENT **/
 

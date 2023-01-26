@@ -1,4 +1,4 @@
-import { fromArray, interval, IObservable, map$$, merge, single } from '@lirx/core';
+import { IObservable, single } from '@lirx/core';
 import { compileReactiveHTMLAsComponentTemplate, createComponent, IComponentTemplate } from '@lirx/dom';
 
 /** DATA **/
@@ -13,11 +13,23 @@ interface IAppRxForLoopExampleComponentConfig {
 
 /** TEMPLATE **/
 
+// const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+//   html: `
+//     <div *for="let item of $.items$; index$ as i$">
+//       #{{ i$ }} -> {{ item }}
+//     </div>
+//   `,
+// });
+
 const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
   html: `
-    <div *for="let item of $.items$; index$ as i$">
-      #{{ i$ }} -> {{ item }}
-    </div>
+    <rx-for-loop
+      items="$.items$"
+    >
+      <div>
+        #{{ index$ }} -> {{ item }}
+      </div>
+    </rx-for-loop>
   `,
 });
 

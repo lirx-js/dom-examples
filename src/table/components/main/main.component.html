@@ -6,15 +6,15 @@
     let-column
   >
     <rx-switch expression="column">
-      <rx-container *switch-case="'firstname'">
+      <rx-switch-case case="'firstname'">
         Firstname
-      </rx-container>
-      <rx-container *switch-case="'lastname'">
+      </rx-switch-case>
+      <rx-switch-case case="'lastname'">
         Lastname
-      </rx-container>
-      <rx-container *switch-case="'age'">
+      </rx-switch-case>
+      <rx-switch-case case="'age'">
         Age
-      </rx-container>
+      </rx-switch-case>
     </rx-switch>
   </rx-slot>
 
@@ -24,15 +24,15 @@
     let-row
   >
     <rx-switch expression="column">
-      <rx-container *switch-case="'firstname'">
+      <rx-switch-case case="'firstname'">
         {{ row.firstname }}
-      </rx-container>
-      <rx-container *switch-case="'lastname'">
+      </rx-switch-case>
+      <rx-switch-case case="'lastname'">
         {{ row.lastname }}
-      </rx-container>
-      <rx-container *switch-case="'age'">
+      </rx-switch-case>
+      <rx-switch-case case="'age'">
         {{ row.age }}
-      </rx-container>
+      </rx-switch-case>
     </rx-switch>
   </rx-slot>
 </app-table>

@@ -21,7 +21,6 @@ export interface ITableComponentConfig<GData> {
 }
 
 interface IData<GData> {
-  // readonly config$: IObservable<ITableComponentConfig<GData>>;
   readonly columns$: IObservable<string[]>;
   readonly rows$: IObservable<GData[]>;
 }

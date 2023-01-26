@@ -25,7 +25,6 @@ const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTempla
 export const AppReactiveTextExampleComponent = createComponent<IAppReactiveTextExampleComponentConfig>({
   name: 'app-reactive-text-example',
   template,
-  inputs: [],
   init: (): IData => {
     const locales$ = single(navigator.languages);
 
