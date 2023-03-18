@@ -1,6 +1,7 @@
 import { $$map, IObservable, IObserver, let$$ } from '@lirx/core';
 import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent } from '@lirx/dom';
 import { TodoListItemComponent } from '../todo-list-item/todo-list-item.component';
+import { TodoListItemShadowComponent } from '../todo-list-item/todo-list-item.shadow.component';
 
 // @ts-ignore
 import html from './todo-list.component.html?raw';
@@ -38,6 +39,7 @@ export const TodoListComponent = createComponent<ITodoListComponentConfig>({
     html,
     customElements: [
       TodoListItemComponent,
+      // TodoListItemShadowComponent,
     ],
   }),
   styles: [compileStyleAsComponentStyle(style)],

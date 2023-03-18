@@ -12,8 +12,8 @@ function main(): void {
   // svgExample();
   // recursiveExample();
   // lazyLoadingExample();
-  // todoListExample();
-  tableExample();
+  todoListExample();
+  // tableExample();
 }
 
 window.onload = main;

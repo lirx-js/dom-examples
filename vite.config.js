@@ -46,6 +46,8 @@ const config = {
   },
   optimizeDeps: {
     include: [
+      '@lirx/utils',
+      '@lirx/promise',
       '@lirx/core',
       // '@lirx/dom',
     ],
