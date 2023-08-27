@@ -1,10 +1,5 @@
 import { IObservable, map$$ } from '@lirx/core';
-import {
-  compileReactiveHTMLAsComponentTemplate,
-  compileStyleAsComponentStyle,
-  createComponent,
-  VirtualCustomElementNode,
-} from '@lirx/dom';
+import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, Component, input, Input } from '@lirx/dom';
 
 // @ts-ignore
 import html from './table.component.html?raw';
@@ -20,30 +15,28 @@ export interface ITableComponentConfig<GData> {
   rows: GData[];
 }
 
-interface IData<GData> {
+interface IComponentData<GData> {
+  readonly config: Input<ITableComponentConfig<GData>>;
+}
+
+interface ITemplateData<GData> {
   readonly columns$: IObservable<string[]>;
   readonly rows$: IObservable<GData[]>;
 }
 
 type IDefaultData = any;
 
-interface ICreateTableComponentConfig<GData> {
-  element: HTMLElement;
-  data: IData<GData>;
-  inputs: [
-    ['config', ITableComponentConfig<GData>],
-  ],
-}
-
-export const TableComponent = createComponent<ICreateTableComponentConfig<IDefaultData>>({
+export const TableComponent = new Component({
   name: 'app-table',
   template: compileReactiveHTMLAsComponentTemplate({ html }),
   styles: [compileStyleAsComponentStyle(style)],
-  inputs: [
-    ['config'],
-  ],
-  init: (node: VirtualCustomElementNode<ICreateTableComponentConfig<IDefaultData>>): IData<IDefaultData> => {
-    const config$ = node.inputs.get$('config');
+  componentData: (): IComponentData<IDefaultData> => {
+    return {
+      config: input<ITableComponentConfig<IDefaultData>>(),
+    };
+  },
+  templateData: (node): ITemplateData<IDefaultData> => {
+    const config$ = node.input$('config');
     const columns$ = map$$(config$, _ => _.columns);
     const rows$ = map$$(config$, _ => _.rows);
 

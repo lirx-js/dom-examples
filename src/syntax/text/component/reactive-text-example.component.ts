@@ -1,20 +1,16 @@
 import { function$$, idle, IObservable, map$$, single } from '@lirx/core';
-import { compileReactiveHTMLAsComponentTemplate, createComponent, IComponentTemplate } from '@lirx/dom';
+import { compileReactiveHTMLAsComponentTemplate, IComponentTemplate, Component } from '@lirx/dom';
 
 /** DATA **/
 
-interface IData {
+interface ITemplateData {
   readonly date$: IObservable<string>;
   readonly time$: IObservable<string>;
 }
 
-interface IAppReactiveTextExampleComponentConfig {
-  data: IData;
-}
-
 /** TEMPLATE **/
 
-const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+const template: IComponentTemplate<ITemplateData> = compileReactiveHTMLAsComponentTemplate({
   html: `
     Today is {{ $.date$ }} and it is {{ $.time$ }}.
   `,
@@ -22,10 +18,10 @@ const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTempla
 
 /** COMPONENT **/
 
-export const AppReactiveTextExampleComponent = createComponent<IAppReactiveTextExampleComponentConfig>({
+export const AppReactiveTextExampleComponent = new Component({
   name: 'app-reactive-text-example',
   template,
-  init: (): IData => {
+  templateData: (): ITemplateData => {
     const locales$ = single(navigator.languages);
 
     const currentTimeStamp$ = map$$(idle(), () => Date.now());

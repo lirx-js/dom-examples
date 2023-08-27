@@ -1,5 +1,5 @@
-import { $$map, IObservable, IObserver, let$$ } from '@lirx/core';
-import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent } from '@lirx/dom';
+import { $$map, IObservable, IObserver, let$$, map$$ } from '@lirx/core';
+import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, Component } from '@lirx/dom';
 import { TodoListItemComponent } from '../todo-list-item/todo-list-item.component';
 import { TodoListItemShadowComponent } from '../todo-list-item/todo-list-item.shadow.component';
 
@@ -18,33 +18,28 @@ interface ITodoListItem {
 
 type ITodoListItemsList = readonly ITodoListItem[];
 
-interface IData {
+interface ITemplateData {
   readonly inputValue$: IObservable<string>;
   readonly $onInput: IObserver<Event>;
-  readonly $onFormSubmit: IObserver<Event>;
+  readonly onFormSubmit$: IObservable<IObserver<Event>>;
 
   readonly items$: IObservable<ITodoListItemsList>;
 
   readonly removeItem: (item: ITodoListItem) => void;
 }
 
-interface ITodoListComponentConfig {
-  element: HTMLElement;
-  data: IData;
-}
-
-export const TodoListComponent = createComponent<ITodoListComponentConfig>({
+export const TodoListComponent = new Component({
   name: 'app-todo-list',
   template: compileReactiveHTMLAsComponentTemplate({
     html,
-    customElements: [
+    components: [
       TodoListItemComponent,
       // TodoListItemShadowComponent,
     ],
   }),
   styles: [compileStyleAsComponentStyle(style)],
-  init: (): IData => {
-    const [$inputValue, inputValue$, getInputValue] = let$$<string>('');
+  templateData: (): ITemplateData => {
+    const [$inputValue, inputValue$] = let$$<string>('');
     const [$items, items$, getItems] = let$$<ITodoListItemsList>([]);
 
     const addItem = (
@@ -73,19 +68,21 @@ export const TodoListComponent = createComponent<ITodoListComponentConfig>({
 
     const $onInput = $$map($inputValue, (event: Event): string => (event.target as HTMLInputElement).value);
 
-    const $onFormSubmit = (
-      event: Event,
-    ): void => {
-      event.preventDefault();
+    const onFormSubmit$ = map$$(inputValue$, (inputValue: string): IObserver<Event> => {
+      inputValue = inputValue.trim();
 
-      const inputValue: string = getInputValue().trim();
+      return (
+        event: Event,
+      ): void => {
+        event.preventDefault();
 
-      if (inputValue !== '') {
-        addItem(inputValue);
-      }
+        if (inputValue !== '') {
+          addItem(inputValue);
+        }
 
-      $inputValue('');
-    };
+        $inputValue('');
+      };
+    });
 
     addItem('Check this awesome tutorial');
     addItem('Write your own components');
@@ -93,7 +90,7 @@ export const TodoListComponent = createComponent<ITodoListComponentConfig>({
     return {
       inputValue$,
       $onInput,
-      $onFormSubmit,
+      onFormSubmit$,
       items$,
       removeItem,
     };

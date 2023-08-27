@@ -1,5 +1,5 @@
 import { IObservable, map$$, merge, single, timeout } from '@lirx/core';
-import { compileReactiveHTMLAsComponentTemplate, createComponent, IComponentTemplate } from '@lirx/dom';
+import { compileReactiveHTMLAsComponentTemplate, IComponentTemplate, Component } from '@lirx/dom';
 
 /** DATA **/
 
@@ -9,17 +9,13 @@ type IState =
   | 'error'
   | 'unknown'
 
-interface IData {
+interface ITemplateData {
   readonly state$: IObservable<IState>;
-}
-
-interface IAppRxSwitchExampleComponentConfig {
-  data: IData;
 }
 
 /** TEMPLATE **/
 
-const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+const template: IComponentTemplate<ITemplateData> = compileReactiveHTMLAsComponentTemplate({
   html: `
     <rx-switch expression="$.state$">
       <div *switch-case="'loading'">
@@ -38,7 +34,7 @@ const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTempla
   `,
 });
 
-// const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+// const template: IComponentTemplate<ITemplateData> = compileReactiveHTMLAsComponentTemplate({
 //   html: `
 //     <rx-switch expression="$.state$">
 //       <rx-switch-case case="'loading'">
@@ -57,8 +53,7 @@ const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTempla
 //   `,
 // });
 
-
-// const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+// const template: IComponentTemplate<ITemplateData> = compileReactiveHTMLAsComponentTemplate({
 //   html: `
 //     <rx-template name="loading">
 //       Loading...
@@ -93,12 +88,10 @@ const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTempla
 
 /** COMPONENT **/
 
-export const AppRxSwitchExampleComponent = createComponent<IAppRxSwitchExampleComponentConfig>({
+export const AppRxSwitchExampleComponent = new Component({
   name: 'app-rx-switch-example',
   template,
-  inputs: [],
-  init: (): IData => {
-
+  templateData: (): ITemplateData => {
     const state$ = merge([
       single<IState>('loading'),
       map$$(timeout(2000), (): IState => 'success'),

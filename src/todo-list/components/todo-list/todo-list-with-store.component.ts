@@ -1,6 +1,6 @@
-import { $$map, IObservable, IObserver, let$$, mapObservableToObserver } from '@lirx/core';
-import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent } from '@lirx/dom';
-import { createDeferredAction, createSelector, createStore, ImmutableArray, mapState } from '@lirx/store';
+import { $$map, IObservable, IObserver, let$$, map$$ } from '@lirx/core';
+import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, Component } from '@lirx/dom';
+import { DeferredAction, DeferredSelector, ImmutableArray, Store } from '@lirx/store';
 import { TodoListItemComponent } from '../todo-list-item/todo-list-item.component';
 
 // @ts-ignore
@@ -22,7 +22,7 @@ interface ITodoListState {
   items: ITodoListItemsList;
 }
 
-const createItemAction = createDeferredAction<ITodoListState, [string]>((state: ITodoListState, message: string): ITodoListState => {
+const deferredCreateItemAction = new DeferredAction((state: ITodoListState, message: string): ITodoListState => {
   return {
     items: [
       ...state.items,
@@ -33,7 +33,7 @@ const createItemAction = createDeferredAction<ITodoListState, [string]>((state: 
   };
 });
 
-const removeItemAction = createDeferredAction<ITodoListState, [ITodoListItem]>((state: ITodoListState, item: ITodoListItem): ITodoListState => {
+const deferredRemoveItemAction = new DeferredAction((state: ITodoListState, item: ITodoListItem): ITodoListState => {
   const index: number = state.items.indexOf(item);
   if (index === -1) {
     return state;
@@ -48,50 +48,56 @@ const removeItemAction = createDeferredAction<ITodoListState, [ITodoListItem]>((
   }
 });
 
-const itemsSelector = createSelector((state: ITodoListState): ITodoListItemsList => state.items);
+const deferredItemsSelector = new DeferredSelector((state: ITodoListState): ITodoListItemsList => state.items);
 
 /**
  * COMPONENT: 'app-todo-list-with-store'
  **/
 
-interface IData {
+interface ITemplateData {
   readonly inputValue$: IObservable<string>;
   readonly $onInput: IObserver<Event>;
-  readonly $onFormSubmit: IObserver<Event>;
+  readonly onFormSubmit$: IObservable<IObserver<Event>>;
 
   readonly items$: IObservable<ITodoListItemsList>;
 
   readonly removeItem: (item: ITodoListItem) => void;
 }
 
-interface ITodoListWithStoreComponentConfig {
-  element: HTMLElement;
-  data: IData;
-}
-
-export const TodoListWithStoreComponent = createComponent<ITodoListWithStoreComponentConfig>({
+export const TodoListWithStoreComponent = new Component({
   name: 'app-todo-list-with-store',
   template: compileReactiveHTMLAsComponentTemplate({
     html,
-    customElements: [
+    components: [
       TodoListItemComponent,
     ],
   }),
   styles: [compileStyleAsComponentStyle(style)],
-  init: (): IData => {
+  templateData: (): ITemplateData => {
     /* ITEMS */
 
-    const store = createStore<ITodoListState>({
+    // STORE
+    const store = Store.create<ITodoListState>({
       items: [],
     });
 
-    const createItem = createItemAction(store);
-    const removeItem = removeItemAction(store);
+    // ACTIONS
+    const createItemAction = deferredCreateItemAction.create(store);
+    const removeItemAction = deferredRemoveItemAction.create(store);
 
-    const items$ = mapState(store, itemsSelector);
+    // SELECTOR
+    const itemsSelector = deferredItemsSelector.create(store);
 
-    createItem('Check this awesome tutorial');
-    createItem('Write your own components');
+    // MISC
+
+    const items$ = itemsSelector.get$();
+
+    const removeItem = (item: ITodoListItem): void => {
+      removeItemAction.invoke(item);
+    };
+
+    createItemAction.invoke('Check this awesome tutorial');
+    createItemAction.invoke('Write your own components');
 
     /* INPUT */
 
@@ -99,13 +105,13 @@ export const TodoListWithStoreComponent = createComponent<ITodoListWithStoreComp
 
     const $onInput = $$map($inputValue, (event: Event): string => (event.target as HTMLInputElement).value);
 
-    const [$onFormSubmit] = mapObservableToObserver(inputValue$, (inputValue: string): IObserver<Event> => {
+    const onFormSubmit$ = map$$(inputValue$, (inputValue: string): IObserver<Event> => {
       inputValue = inputValue.trim();
       return (event: Event): void => {
         event.preventDefault();
 
         if (inputValue !== '') {
-          createItem(inputValue);
+          createItemAction.invoke(inputValue);
         }
 
         $inputValue('');
@@ -115,7 +121,7 @@ export const TodoListWithStoreComponent = createComponent<ITodoListWithStoreComp
     return {
       inputValue$,
       $onInput,
-      $onFormSubmit,
+      onFormSubmit$,
       items$,
       removeItem,
     };

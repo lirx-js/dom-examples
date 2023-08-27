@@ -1,27 +1,22 @@
 import { fromPromiseFactory, IDefaultNotificationsUnion, IObservable } from '@lirx/core';
-import { compileReactiveHTMLAsComponentTemplate, createAsyncComponentReference, createComponent } from '@lirx/dom';
+import { compileReactiveHTMLAsComponentTemplate, Component, AsyncComponentReference } from '@lirx/dom';
 
 /** ASYNC COMPONENTS **/
 
-const [AppLazyLoadedExampleComponent$, AppLazyLoadedExampleComponent] = createAsyncComponentReference(
+const AppLazyLoadedExampleComponentReference = new AsyncComponentReference(
   'app-lazy-loaded-example',
   fromPromiseFactory(() => import('./lazy-loaded-example.component').then(_ => _.AppLazyLoadedExampleComponent)),
 );
 
 /** TYPES **/
 
-interface IData {
+interface ITemplateData {
   readonly component$: IObservable<IDefaultNotificationsUnion<any>>;
-}
-
-interface IAppLazyLoadingExampleComponentConfig {
-  element: HTMLElement;
-  data: IData;
 }
 
 /** COMPONENT **/
 
-export const AppLazyLoadingExampleComponent = createComponent<IAppLazyLoadingExampleComponentConfig>({
+export const AppLazyLoadingExampleComponent = new Component({
   name: 'app-lazy-loading-example',
   template: compileReactiveHTMLAsComponentTemplate({
     html: `
@@ -37,13 +32,13 @@ export const AppLazyLoadingExampleComponent = createComponent<IAppLazyLoadingExa
       </div>
     </rx-async>
   `,
-    customElements: [
-      AppLazyLoadedExampleComponent,
+    components: [
+      AppLazyLoadedExampleComponentReference,
     ],
   }),
-  init: (): IData => {
+  templateData: (): ITemplateData => {
     return {
-      component$: AppLazyLoadedExampleComponent$,
+      component$: AppLazyLoadedExampleComponentReference.component$,
     };
   },
 });

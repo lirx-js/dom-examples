@@ -1,17 +1,13 @@
-import { compileReactiveHTMLAsComponentTemplate, createComponent, IComponentTemplate } from '@lirx/dom';
+import { compileReactiveHTMLAsComponentTemplate, IComponentTemplate, Component } from '@lirx/dom';
 
 /** TYPES **/
 
-interface IData {
-}
-
-interface IAppMathMLExampleComponentConfig {
-  element: HTMLElement;
+interface ITemplateData {
 }
 
 /** TEMPLATE **/
 
-const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+const template: IComponentTemplate<ITemplateData> = compileReactiveHTMLAsComponentTemplate({
   html: `
     <!--FROM http://eyeasme.com/Joe/MathML/MathML_browser_test.html-->
     <math style="font-size: 24pt" display="block">
@@ -77,7 +73,7 @@ const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTempla
 
 /** COMPONENT **/
 
-export const AppMathMLExampleComponent = createComponent<IAppMathMLExampleComponentConfig>({
+export const AppMathMLExampleComponent = new Component({
   name: 'app-math-ml-example',
   template,
 });

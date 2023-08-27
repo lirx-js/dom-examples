@@ -1,17 +1,13 @@
-import { compileReactiveHTMLAsComponentTemplate, createComponent, IComponentTemplate } from '@lirx/dom';
+import { compileReactiveHTMLAsComponentTemplate, IComponentTemplate, Component } from '@lirx/dom';
 
 /** TYPES **/
 
-interface IData {
-}
-
-interface IAppSVGExampleComponentConfig {
-  element: HTMLElement;
+interface ITemplateData {
 }
 
 /** TEMPLATE **/
 
-const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+const template: IComponentTemplate<ITemplateData> = compileReactiveHTMLAsComponentTemplate({
   html: `
   <!--FROM https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Getting_Started-->
     <svg
@@ -28,7 +24,7 @@ const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTempla
 
 /** COMPONENT **/
 
-export const AppSVGExampleComponent = createComponent<IAppSVGExampleComponentConfig>({
+export const AppSVGExampleComponent = new Component({
   name: 'app-svg-example',
   template,
 });

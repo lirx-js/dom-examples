@@ -1,5 +1,5 @@
 import { IObservable, single } from '@lirx/core';
-import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent, VirtualCustomElementNode } from '@lirx/dom';
+import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, Component } from '@lirx/dom';
 import { ITableComponentConfig, TableComponent } from '../table/table.component';
 
 // @ts-ignore
@@ -17,25 +17,20 @@ interface TableDada {
   age: number;
 }
 
-interface IData {
+interface ITemplateData {
   readonly tableConfig$: IObservable<ITableComponentConfig<TableDada>>;
 }
 
-interface IMainComponentConfig {
-  element: HTMLElement;
-  data: IData;
-}
-
-export const MainComponent = createComponent<IMainComponentConfig>({
+export const MainComponent = new Component({
   name: 'app-main',
   template: compileReactiveHTMLAsComponentTemplate({
     html,
-    customElements: [
+    components: [
       TableComponent,
-    ]
+    ],
   }),
   styles: [compileStyleAsComponentStyle(style)],
-  init: (node: VirtualCustomElementNode<IMainComponentConfig>): IData => {
+  templateData: (): ITemplateData => {
     const tableConfig$ = single<ITableComponentConfig<TableDada>>({
       columns: [
         'firstname',
@@ -53,7 +48,7 @@ export const MainComponent = createComponent<IMainComponentConfig>({
           lastname: 'Strover',
           age: 46,
         },
-      ]
+      ],
     });
 
     return {

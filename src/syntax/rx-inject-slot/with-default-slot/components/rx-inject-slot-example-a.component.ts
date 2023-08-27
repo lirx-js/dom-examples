@@ -1,37 +1,32 @@
 import { interval, IObservable, map$$, merge, single } from '@lirx/core';
-import { compileReactiveHTMLAsComponentTemplate, createComponent, IComponentTemplate } from '@lirx/dom';
+import { compileReactiveHTMLAsComponentTemplate, IComponentTemplate, Component } from '@lirx/dom';
 import { AppRxInjectSlotExampleBComponent } from './rx-inject-slot-example-b.component';
 
 /** DATA **/
 
-interface IData {
+interface ITemplateData {
   readonly date$: IObservable<string>;
-}
-
-interface IAppRxInjectSlotExampleAComponentConfig {
-  data: IData;
 }
 
 /** TEMPLATE **/
 
-const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+const template: IComponentTemplate<ITemplateData> = compileReactiveHTMLAsComponentTemplate({
   html: `
     <app-rx-inject-slot-example-b>
       {{ $.date$ }}
     </app-rx-inject-slot-example-b>
   `,
-  customElements: [
+  components: [
     AppRxInjectSlotExampleBComponent,
   ],
 });
 
-
 /** COMPONENT **/
 
-export const AppRxInjectSlotExampleAComponent = createComponent<IAppRxInjectSlotExampleAComponentConfig>({
+export const AppRxInjectSlotExampleAComponent = new Component({
   name: 'app-rx-inject-slot-example-a',
   template,
-  init: (): IData => {
+  templateData: (): ITemplateData => {
     const date$ = map$$(
       merge([
           interval(1000),

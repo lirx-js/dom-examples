@@ -1,19 +1,15 @@
 import { interval, IObservable, map$$, merge, single } from '@lirx/core';
-import { compileReactiveHTMLAsComponentTemplate, createComponent, IComponentTemplate } from '@lirx/dom';
+import { compileReactiveHTMLAsComponentTemplate, IComponentTemplate, Component } from '@lirx/dom';
 
 /** DATA **/
 
-interface IData {
+interface ITemplateData {
   readonly visible$: IObservable<boolean>;
-}
-
-interface IAppRxIfExampleComponentConfig {
-  data: IData;
 }
 
 /** TEMPLATE **/
 
-// const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+// const template: IComponentTemplate<ITemplateData> = compileReactiveHTMLAsComponentTemplate({
 //   html: `
 //     <div>A</div>
 //     <div *if="$.visible$">
@@ -23,7 +19,7 @@ interface IAppRxIfExampleComponentConfig {
 //   `,
 // });
 
-const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+const template: IComponentTemplate<ITemplateData> = compileReactiveHTMLAsComponentTemplate({
   html: `
     <rx-if condition="$.visible$">
       <div *if-true>
@@ -36,7 +32,7 @@ const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTempla
   `,
 });
 
-// const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+// const template: IComponentTemplate<ITemplateData> = compileReactiveHTMLAsComponentTemplate({
 //   html: `
 //     <rx-if condition="$.visible$">
 //       <rx-if-true>
@@ -49,7 +45,7 @@ const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTempla
 //   `,
 // });
 
-// const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+// const template: IComponentTemplate<ITemplateData> = compileReactiveHTMLAsComponentTemplate({
 //   html: `
 //     <rx-template name="trueTemplate">
 //       I'm visible
@@ -68,11 +64,10 @@ const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTempla
 
 /** COMPONENT **/
 
-export const AppRxIfExampleComponent = createComponent<IAppRxIfExampleComponentConfig>({
+export const AppRxIfExampleComponent = new Component({
   name: 'app-rx-if-example',
   template,
-  inputs: [],
-  init: (): IData => {
+  templateData: (): ITemplateData => {
     const toggleTime: number = 1000;
 
     const visible$ = map$$(

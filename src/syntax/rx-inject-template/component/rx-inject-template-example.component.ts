@@ -1,19 +1,15 @@
 import { IObservable, single } from '@lirx/core';
-import { compileReactiveHTMLAsComponentTemplate, createComponent, IComponentTemplate } from '@lirx/dom';
+import { compileReactiveHTMLAsComponentTemplate, IComponentTemplate, Component } from '@lirx/dom';
 
 /** DATA **/
 
-interface IData {
+interface ITemplateData {
   readonly data$: IObservable<string>;
-}
-
-interface IAppRxInjectTemplateExampleComponentConfig {
-  data: IData;
 }
 
 /** TEMPLATE **/
 
-const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+const template: IComponentTemplate<ITemplateData> = compileReactiveHTMLAsComponentTemplate({
   html: `
     <rx-template
       name="templateA"
@@ -31,11 +27,10 @@ const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTempla
 
 /** COMPONENT **/
 
-export const AppRxInjectTemplateExampleComponent = createComponent<IAppRxInjectTemplateExampleComponentConfig>({
+export const AppRxInjectTemplateExampleComponent = new Component({
   name: 'app-rx-inject-template-example',
   template,
-  inputs: [],
-  init: (): IData => {
+  templateData: (): ITemplateData => {
     const data$ = single('Some data');
 
     return {

@@ -1,14 +1,8 @@
-import { compileReactiveHTMLAsComponentTemplate, createComponent } from '@lirx/dom';
-
-/** TYPES **/
-
-interface IAppLazyLoadedExampleComponentConfig {
-  element: HTMLElement;
-}
+import { compileReactiveHTMLAsComponentTemplate, Component } from '@lirx/dom';
 
 /** COMPONENT **/
 
-export const AppLazyLoadedExampleComponent = createComponent<IAppLazyLoadedExampleComponentConfig>({
+export const AppLazyLoadedExampleComponent = new Component({
   name: 'app-lazy-loaded-example',
   template: compileReactiveHTMLAsComponentTemplate({
     html: `

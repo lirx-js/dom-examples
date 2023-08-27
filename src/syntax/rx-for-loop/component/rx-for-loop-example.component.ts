@@ -1,19 +1,15 @@
 import { IObservable, single } from '@lirx/core';
-import { compileReactiveHTMLAsComponentTemplate, createComponent, IComponentTemplate } from '@lirx/dom';
+import { compileReactiveHTMLAsComponentTemplate, IComponentTemplate, Component } from '@lirx/dom';
 
 /** DATA **/
 
-interface IData {
+interface ITemplateData {
   readonly items$: IObservable<readonly string[]>;
-}
-
-interface IAppRxForLoopExampleComponentConfig {
-  data: IData;
 }
 
 /** TEMPLATE **/
 
-// const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+// const template: IComponentTemplate<ITemplateData> = compileReactiveHTMLAsComponentTemplate({
 //   html: `
 //     <div *for="let item of $.items$; index$ as i$">
 //       #{{ i$ }} -> {{ item }}
@@ -21,7 +17,7 @@ interface IAppRxForLoopExampleComponentConfig {
 //   `,
 // });
 
-const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+const template: IComponentTemplate<ITemplateData> = compileReactiveHTMLAsComponentTemplate({
   html: `
     <rx-for-loop
       items="$.items$"
@@ -33,7 +29,7 @@ const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTempla
   `,
 });
 
-// const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+// const template: IComponentTemplate<ITemplateData> = compileReactiveHTMLAsComponentTemplate({
 //   html: `
 //     <rx-template
 //       name="forLoopTemplate"
@@ -54,11 +50,10 @@ const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTempla
 
 /** COMPONENT **/
 
-export const AppRxForLoopExampleComponent = createComponent<IAppRxForLoopExampleComponentConfig>({
+export const AppRxForLoopExampleComponent = new Component({
   name: 'app-rx-for-loop-example',
   template,
-  inputs: [],
-  init: (): IData => {
+  templateData: (): ITemplateData => {
     const items$ = single(['Alice', 'Bob', 'Chloe', 'David']);
 
     return {

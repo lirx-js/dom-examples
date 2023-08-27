@@ -10,20 +10,21 @@
     "serve": "vite preview",
     "clear:cache": "npm run clear:cache:vite && npm run clear:cache:lirx-dom",
     "clear:cache:vite": "node ./tools/clear-cache.js --vite",
-    "clear:cache:lirx-dom": "node ./tools/clear-cache.js --lirx-dom"
+    "clear:cache:lirx-dom": "node ./tools/clear-cache.js --lirx-dom",
+    "reinstall": "rm -rf ./node_modules && rm -f ./yarn.lock && yarn install"
   },
   "sideEffects": false,
   "devDependencies": {
-    "@lirx/dom-aot-plugin": "1.1.0",
-    "sass": "^1.55.0",
-    "typescript": "^4.8.4",
-    "terser": "^5.15.1",
-    "vite": "^3.1.4"
+    "@lirx/dom-aot-plugin": "latest",
+    "sass": "^1.62.0",
+    "typescript": "^5.1.6",
+    "terser": "^5.19.2",
+    "vite": "^4.4.7"
   },
   "dependencies": {
-    "@lirx/core": "^1.2.0",
-    "@lirx/dom": "^0.8.0",
-    "@lirx/store": "^1.0.0",
-    "tslib": "^2.4.0"
+    "@lirx/core": "latest",
+    "@lirx/dom": "latest",
+    "@lirx/store": "latest",
+    "tslib": "^2.6.1"
   }
 }

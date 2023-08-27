@@ -1,10 +1,13 @@
 import { IObservable, map$$ } from '@lirx/core';
 import {
-  compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle,
-  createComponent,
-  createComponentReference,
+  compileReactiveHTMLAsComponentTemplate,
+  compileStyleAsComponentStyle,
   IComponentStyle,
   IComponentTemplate,
+  ComponentReference,
+  Component,
+  input,
+  Input,
 } from '@lirx/dom';
 
 /** TYPES **/
@@ -14,22 +17,19 @@ export interface IAppRecursiveExampleComponentInputConfig {
   readonly children: readonly IAppRecursiveExampleComponentInputConfig[];
 }
 
-interface IData {
+interface IComponentData {
+  readonly config: Input<IAppRecursiveExampleComponentInputConfig>;
+}
+
+interface ITemplateData {
   readonly name$: IObservable<string>;
   readonly children$: IObservable<readonly IAppRecursiveExampleComponentInputConfig[]>;
   readonly notEmpty$: IObservable<boolean>;
 }
 
-interface IAppRecursiveExampleComponentConfig {
-  data: IData;
-  inputs: [
-    ['config', IAppRecursiveExampleComponentInputConfig],
-  ];
-}
-
 /** TEMPLATE **/
 
-const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+const template: IComponentTemplate<ITemplateData> = compileReactiveHTMLAsComponentTemplate({
   html: `
     <div class="name">
       {{ $.name$ }}
@@ -44,8 +44,8 @@ const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTempla
       ></app-recursive-example>
     </div>
   `,
-  customElements: [
-    createComponentReference('app-recursive-example', () => AppRecursiveExampleComponent),
+  components: [
+    new ComponentReference('app-recursive-example', () => AppRecursiveExampleComponent),
   ],
 });
 
@@ -64,15 +64,17 @@ const style: IComponentStyle = compileStyleAsComponentStyle(`
 
 /** COMPONENT **/
 
-export const AppRecursiveExampleComponent = createComponent<IAppRecursiveExampleComponentConfig>({
+export const AppRecursiveExampleComponent = new Component({
   name: 'app-recursive-example',
   template,
   styles: [style],
-  inputs: [
-    ['config'],
-  ],
-  init: (node): IData => {
-    const config$: IObservable<IAppRecursiveExampleComponentInputConfig> = node.inputs.get$('config');
+  componentData: (): IComponentData => {
+    return {
+      config: input<IAppRecursiveExampleComponentInputConfig>(),
+    };
+  },
+  templateData: (node): ITemplateData => {
+    const config$: IObservable<IAppRecursiveExampleComponentInputConfig> = node.input$('config');
 
     const name$ = map$$(config$, _ => _.name);
     const children$ = map$$(config$, _ => _.children);

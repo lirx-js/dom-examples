@@ -1,20 +1,15 @@
-import { compileReactiveHTMLAsComponentTemplate, createComponent, IComponentTemplate } from '@lirx/dom';
+import { compileReactiveHTMLAsComponentTemplate, IComponentTemplate, Component } from '@lirx/dom';
 import { IObservable, single } from '@lirx/core';
 
 /** CONFIG **/
 
-interface IData {
+interface ITemplateData {
   readonly data$: IObservable<string>;
-}
-
-interface IAppRxInjectSlotExampleBComponentConfig {
-  element: HTMLElement;
-  data: IData;
 }
 
 /** TEMPLATE **/
 
-const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+const template: IComponentTemplate<ITemplateData> = compileReactiveHTMLAsComponentTemplate({
   html: `
     <div class="main-slot">
       <rx-inject-slot
@@ -29,10 +24,10 @@ const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTempla
 
 /** COMPONENT **/
 
-export const AppRxInjectSlotExampleBComponent = createComponent<IAppRxInjectSlotExampleBComponentConfig>({
+export const AppRxInjectSlotExampleBComponent = new Component({
   name: 'app-rx-inject-slot-example-b',
   template,
-  init: (): IData => {
+  templateData: (): ITemplateData => {
     const data$ = single('Data coming from child');
 
     return {

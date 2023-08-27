@@ -1,11 +1,12 @@
 import { IObservable, IObserver } from '@lirx/core';
 import {
-  compileStyleAsShadowComponentStyle,
-  createShadowComponent,
   compileReactiveHTMLAsComponentTemplate,
-  compileStyleAsComponentStyle,
-  createComponent,
-  VirtualCustomElementNode,
+  compileStyleAsShadowComponentStyle,
+  Component,
+  input,
+  output,
+  Input,
+  Output,
 } from '@lirx/dom';
 
 // @ts-ignore
@@ -17,35 +18,30 @@ import style from './todo-list-item.component.scss?inline';
  * COMPONENT: 'app-todo-list-item'
  **/
 
-interface IData {
+interface IComponentData {
+  readonly message: Input<string>;
+  readonly remove: Output<void>;
+}
+
+interface ITemplateData {
   readonly message$: IObservable<string>;
   readonly $onClickRemoveButton: IObserver<any>;
 }
 
-interface ITodoListItemComponentConfig {
-  element: HTMLElement;
-  inputs: [
-    ['message', string],
-  ],
-  outputs: [
-    ['remove', void],
-  ],
-  data: IData;
-}
-
-export const TodoListItemShadowComponent = createShadowComponent<ITodoListItemComponentConfig>({
+export const TodoListItemShadowComponent = new Component({
+  mode: 'shadow',
   name: 'app-todo-list-item',
   template: compileReactiveHTMLAsComponentTemplate({ html }),
   styles: [compileStyleAsShadowComponentStyle(style)],
-  inputs: [
-    ['message'],
-  ],
-  outputs: [
-    'remove',
-  ],
-  init: (node: VirtualCustomElementNode<ITodoListItemComponentConfig>): IData => {
-    const message$ = node.inputs.get$('message');
-    const $onClickRemoveButton = node.outputs.$set('remove');
+  componentData: (): IComponentData => {
+    return {
+      message: input<string>(),
+      remove: output<void>(),
+    };
+  },
+  templateData: (node): ITemplateData => {
+    const message$ = node.input$('message');
+    const $onClickRemoveButton = node.$output('remove');
 
     return {
       message$,

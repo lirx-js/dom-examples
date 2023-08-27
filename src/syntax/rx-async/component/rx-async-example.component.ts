@@ -1,29 +1,15 @@
-import {
-  IDefaultNotificationsUnion,
-  interval,
-  IObservable,
-  pipe$$,
-  scan$$$,
-  singleN,
-  switchMap$$,
-  switchMap$$$, throwError,
-  timeout,
-} from '@lirx/core';
-import { compileReactiveHTMLAsComponentTemplate, createComponent, IComponentTemplate } from '@lirx/dom';
+import { IDefaultNotificationsUnion, IObservable, singleN, switchMap$$, throwError, timeout } from '@lirx/core';
+import { compileReactiveHTMLAsComponentTemplate, IComponentTemplate, Component } from '@lirx/dom';
 
 /** DATA **/
 
-interface IData {
+interface ITemplateData {
   readonly async$: IObservable<IDefaultNotificationsUnion<string>>;
-}
-
-interface IAppRxIfExampleComponentConfig {
-  data: IData;
 }
 
 /** TEMPLATE **/
 
-// const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+// const template: IComponentTemplate<ITemplateData> = compileReactiveHTMLAsComponentTemplate({
 //   html: `
 //     <div *async="$.async$">
 //       FULFILLED
@@ -31,7 +17,7 @@ interface IAppRxIfExampleComponentConfig {
 //   `,
 // });
 
-const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+const template: IComponentTemplate<ITemplateData> = compileReactiveHTMLAsComponentTemplate({
   html: `
     <rx-async expression="$.async$">
       <div *async-pending>
@@ -47,7 +33,7 @@ const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTempla
   `,
 });
 
-// const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+// const template: IComponentTemplate<ITemplateData> = compileReactiveHTMLAsComponentTemplate({
 //   html: `
 //      <rx-async expression="$.async$">
 //       <rx-async-pending>
@@ -63,7 +49,7 @@ const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTempla
 //   `,
 // });
 
-// const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTemplate({
+// const template: IComponentTemplate<ITemplateData> = compileReactiveHTMLAsComponentTemplate({
 //   html: `
 //     <rx-template name="pendingTemplate">
 //       PENDING
@@ -92,11 +78,10 @@ const template: IComponentTemplate<IData> = compileReactiveHTMLAsComponentTempla
 
 /** COMPONENT **/
 
-export const AppRxAsyncExampleComponent = createComponent<IAppRxIfExampleComponentConfig>({
+export const AppRxAsyncExampleComponent = new Component({
   name: 'app-rx-async-example',
   template,
-  inputs: [],
-  init: (): IData => {
+  templateData: (): ITemplateData => {
     const async$ = switchMap$$(timeout(1000), (): IObservable<IDefaultNotificationsUnion<string>> => {
       return (Math.random() < 0.5)
         ? singleN(`Hello world`)
