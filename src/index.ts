@@ -10,9 +10,9 @@ function main(): void {
   // syntaxExample();
   // mathMLExample();
   // svgExample();
-  // recursiveExample();
+  recursiveExample();
   // lazyLoadingExample();
-  todoListExample();
+  // todoListExample();
   // tableExample();
 }
 

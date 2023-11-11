@@ -19,5 +19,5 @@ export function recursiveExample() {
     };
   };
 
-  node.$output('config')(generateConfig(`node-0`, 10, 3));
+  node.$input('config')(generateConfig(`node-0`, 10, 3));
 }

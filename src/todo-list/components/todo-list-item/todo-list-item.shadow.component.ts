@@ -33,12 +33,10 @@ export const TodoListItemShadowComponent = new Component({
   name: 'app-todo-list-item',
   template: compileReactiveHTMLAsComponentTemplate({ html }),
   styles: [compileStyleAsShadowComponentStyle(style)],
-  componentData: (): IComponentData => {
-    return {
-      message: input<string>(),
-      remove: output<void>(),
-    };
-  },
+  componentData: (): IComponentData => ({
+    message: input<string>(),
+    remove: output<void>(),
+  }),
   templateData: (node): ITemplateData => {
     const message$ = node.input$('message');
     const $onClickRemoveButton = node.$output('remove');

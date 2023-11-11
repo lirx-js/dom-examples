@@ -68,11 +68,9 @@ export const AppRecursiveExampleComponent = new Component({
   name: 'app-recursive-example',
   template,
   styles: [style],
-  componentData: (): IComponentData => {
-    return {
-      config: input<IAppRecursiveExampleComponentInputConfig>(),
-    };
-  },
+  componentData: (): IComponentData => ({
+    config: input<IAppRecursiveExampleComponentInputConfig>(),
+  }),
   templateData: (node): ITemplateData => {
     const config$: IObservable<IAppRecursiveExampleComponentInputConfig> = node.input$('config');
 

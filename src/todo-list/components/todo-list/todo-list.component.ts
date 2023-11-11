@@ -1,7 +1,7 @@
 import { $$map, IObservable, IObserver, let$$, map$$ } from '@lirx/core';
 import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, Component } from '@lirx/dom';
 import { TodoListItemComponent } from '../todo-list-item/todo-list-item.component';
-import { TodoListItemShadowComponent } from '../todo-list-item/todo-list-item.shadow.component';
+import { ITodoListItemsList, ITodoListItem } from './todo-list.types';
 
 // @ts-ignore
 import html from './todo-list.component.html?raw';
@@ -9,14 +9,8 @@ import html from './todo-list.component.html?raw';
 import style from './todo-list.component.scss?inline';
 
 /**
- * COMPONENT: 'app-todo-list'
+ * COMPONENT: 'app-todo'
  **/
-
-interface ITodoListItem {
-  readonly message: string;
-}
-
-type ITodoListItemsList = readonly ITodoListItem[];
 
 interface ITemplateData {
   readonly inputValue$: IObservable<string>;

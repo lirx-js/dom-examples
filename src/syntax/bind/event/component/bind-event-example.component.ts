@@ -20,7 +20,7 @@ const template: IComponentTemplate<ITemplateData> = compileReactiveHTMLAsCompone
 
 // const template: IComponentTemplate<ITemplateData> = compileReactiveHTMLAsComponentTemplate({
 //   html: `
-//     <button (click)$="$.onClick$">
+//     <button {click}="$.onClick$">
 //       Click me
 //     </button>
 //   `,

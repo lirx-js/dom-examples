@@ -30,11 +30,9 @@ export const TableComponent = new Component({
   name: 'app-table',
   template: compileReactiveHTMLAsComponentTemplate({ html }),
   styles: [compileStyleAsComponentStyle(style)],
-  componentData: (): IComponentData<IDefaultData> => {
-    return {
-      config: input<ITableComponentConfig<IDefaultData>>(),
-    };
-  },
+  componentData: (): IComponentData<IDefaultData> => ({
+    config: input<ITableComponentConfig<IDefaultData>>(),
+  }),
   templateData: (node): ITemplateData<IDefaultData> => {
     const config$ = node.input$('config');
     const columns$ = map$$(config$, _ => _.columns);

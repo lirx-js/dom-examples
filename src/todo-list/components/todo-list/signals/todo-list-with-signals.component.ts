@@ -1,29 +1,24 @@
-import { IObservable, IObserver, signal, single } from '@lirx/core';
+import { signal, ISignal, $log, unknownToObservableStrict } from '@lirx/core';
 import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, Component } from '@lirx/dom';
 import { Writable } from '@lirx/utils';
-import { TodoListItemComponent } from '../todo-list-item/todo-list-item.component';
+import { TodoListItemComponent } from '../../todo-list-item/todo-list-item.component';
+import { ITodoListItemsList, ITodoListItem } from '../todo-list.types';
 
 // @ts-ignore
-import html from './todo-list.component.html?raw';
+import html from './todo-list-with-signals.component.html?raw';
 // @ts-ignore
-import style from './todo-list.component.scss?inline';
+import style from '../todo-list.component.scss?inline';
 
 /**
  * COMPONENT: 'app-todo-list-with-signals'
  **/
 
-interface ITodoListItem {
-  readonly message: string;
-}
-
-type ITodoListItemsList = readonly ITodoListItem[];
-
 interface ITemplateData {
-  readonly inputValue$: IObservable<string>;
-  readonly $onInput: IObserver<Event>;
-  readonly onFormSubmit$: IObservable<IObserver<Event>>;
+  readonly inputValue: ISignal<string>;
+  readonly onInput: (event: Event) => void;
+  readonly onFormSubmit: (event: Event) => void;
 
-  readonly items$: IObservable<ITodoListItemsList>;
+  readonly items: ISignal<ITodoListItemsList>;
 
   readonly removeItem: (item: ITodoListItem) => void;
 }
@@ -70,11 +65,11 @@ export const TodoListWithSignalsComponent = new Component({
 
     const inputValue = signal<string>('');
 
-    const $onInput = (event: Event): void => {
+    const onInput = (event: Event): void => {
       inputValue.set((event.target as HTMLInputElement).value);
     };
 
-    const $onFormSubmit$ = (event: Event): void => {
+    const onFormSubmit = (event: Event): void => {
       event.preventDefault();
 
       const value = inputValue().trim();
@@ -87,10 +82,10 @@ export const TodoListWithSignalsComponent = new Component({
     };
 
     return {
-      inputValue$: inputValue.toObservable(),
-      $onInput,
-      onFormSubmit$: single($onFormSubmit$),
-      items$: items.toObservable(),
+      inputValue,
+      onInput,
+      onFormSubmit,
+      items,
       removeItem,
     };
   },
