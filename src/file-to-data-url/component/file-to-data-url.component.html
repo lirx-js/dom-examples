@@ -1,0 +1,26 @@
+<div
+  class="area"
+  (dragover)="$.onDragOver"
+  (dragleave)="$.onDragLeave"
+  (drop)="$.onDrop"
+  [class.drag-over]="$.dragOver"
+>
+  <div class="actions">
+
+  </div>
+
+  <div
+    class="placeholder"
+    *if="=> !$.base64Url()"
+  >
+    Drop a file
+  </div>
+
+  <div
+    class="result"
+    *if="=> $.base64Url()"
+  >
+    {{ $.base64Url }}
+  </div>
+</div>
+

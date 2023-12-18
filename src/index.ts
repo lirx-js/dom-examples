@@ -1,3 +1,4 @@
+import { fileToDataUrlExample } from './file-to-data-url/file-to-data-url.example';
 import { lazyLoadingExample } from './lazy-loading/lazy-loading.example';
 import { mathMLExample } from './math-ml/math-ml.example';
 import { svgExample } from './svg/svg.example';
@@ -12,8 +13,9 @@ function main(): void {
   // svgExample();
   // recursiveExample();
   // lazyLoadingExample();
-  todoListExample();
+  // todoListExample();
   // tableExample();
+  fileToDataUrlExample();
 }
 
 window.onload = main;
