@@ -1,10 +1,10 @@
 <form
   class="input-form"
-  (submit)="$.onFormSubmit"
+  {submit}="$.onFormSubmit$"
 >
   <input
-    [value]="$.inputValue"
-    (input)="$.onInput"
+    [value]="$.inputValue$"
+    (input)="$.$onInput"
     placeholder="Enter task description"
   />
   <button type="submit">
@@ -14,7 +14,7 @@
 
 <div class="list">
   <app-todo-list-item
-    *for="let item of $.items"
+    *for="let item of $.items$"
     $[message]="item.message"
     $(remove)="() => $.removeItem(item)"
   ></app-todo-list-item>
